@@ -1,0 +1,73 @@
+PREGUNTA 5 — Acuerdo entre anotadores y evaluación de consistencia
+===================================================================
+
+Función a implementar: evaluar_acuerdo_anotadores(df, col_anotador_1,
+                                                   col_anotador_2,
+                                                   col_referencia)
+
+EL PROBLEMA
+-----------
+En proyectos de machine learning supervisado es común que múltiples
+personas etiqueten los mismos datos (anotadores humanos). Antes de
+usar esas etiquetas para entrenar un modelo, es fundamental medir qué
+tan consistentes son entre sí y qué tan cerca están de una referencia
+oficial (ground truth).
+
+El coeficiente Kappa de Cohen mide el acuerdo entre dos anotadores
+descontando el acuerdo que ocurriría por azar. Su valor va de -1 a 1:
+  - 1.0       : acuerdo perfecto
+  - 0.0       : acuerdo al nivel del azar
+  - negativo  : acuerdo peor que el azar
+
+Tienes un DataFrame donde cada fila representa un ítem etiquetado,
+y tres columnas contienen las etiquetas asignadas por el anotador 1,
+el anotador 2 y la referencia oficial respectivamente.
+
+TU MISIÓN
+---------
+Escribe una función llamada evaluar_acuerdo_anotadores(df,
+col_anotador_1, col_anotador_2, col_referencia) que realice lo
+siguiente:
+
+1. Calcule el Kappa de Cohen entre col_anotador_1 y col_anotador_2
+   usando cohen_kappa_score de sklearn.metrics. Llama a este valor
+   kappa_entre_anotadores.
+
+2. Calcule el Kappa de Cohen entre col_anotador_1 y col_referencia.
+   Llama a este valor kappa_anotador1_vs_ref.
+
+3. Calcule el Kappa de Cohen entre col_anotador_2 y col_referencia.
+   Llama a este valor kappa_anotador2_vs_ref.
+
+4. Determina cuál de los dos anotadores es más consistente con la
+   referencia comparando sus kappas. En caso de empate exacto, elige
+   'anotador_1'. Llama a este valor mejor_anotador (str: 'anotador_1'
+   o 'anotador_2').
+
+5. Devuelva un diccionario con las cuatro claves:
+   - 'kappa_entre_anotadores'   : float
+   - 'kappa_anotador1_vs_ref'   : float
+   - 'kappa_anotador2_vs_ref'   : float
+   - 'mejor_anotador'           : str
+
+FIRMA
+-----
+def evaluar_acuerdo_anotadores(df              : pd.DataFrame,
+                               col_anotador_1  : str,
+                               col_anotador_2  : str,
+                               col_referencia  : str) -> dict
+
+ARGUMENTOS
+----------
+- df            : pd.DataFrame — DataFrame con al menos tres columnas
+                                 de etiquetas categóricas, sin NaN.
+- col_anotador_1: str          — Nombre de la columna del anotador 1.
+- col_anotador_2: str          — Nombre de la columna del anotador 2.
+- col_referencia: str          — Nombre de la columna de referencia
+                                 oficial (ground truth).
+
+RETORNA
+-------
+dict — Diccionario con las claves: kappa_entre_anotadores,
+       kappa_anotador1_vs_ref, kappa_anotador2_vs_ref,
+       mejor_anotador.

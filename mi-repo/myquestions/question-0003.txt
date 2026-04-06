@@ -1,0 +1,40 @@
+Ejercicio 3 — curva_precision_recall
+=====================================
+
+Análisis de la curva Precision-Recall y umbral óptimo
+
+En problemas de clasificación binaria con clases desbalanceadas, la curva
+Precision-Recall es más informativa que la curva ROC. Dado que ya tienes un
+modelo entrenado y sus probabilidades predichas, tu tarea es analizar esa
+curva para encontrar el umbral que mejor equilibra precisión y recall.
+
+Tu misión: Escribe una función llamada curva_precision_recall(y_true, y_proba)
+que realice lo siguiente:
+
+1. Calcule la curva Precision-Recall usando precision_recall_curve de
+   sklearn.metrics, que devuelve los arrays precision, recall y thresholds.
+2. Calcule el F1-score para cada umbral usando la fórmula:
+   f1 = 2 * precision * recall / (precision + recall),
+   ignorando divisiones por cero (reemplázalas con 0).
+3. Identifique el índice del umbral que maximiza el F1-score. En caso de
+   empate, tome el de menor índice.
+4. Devuelva un diccionario con las siguientes claves:
+   - 'mejor_umbral': valor del umbral óptimo (float).
+   - 'mejor_f1': F1-score máximo alcanzado (float).
+   - 'precision_en_umbral': precisión en ese umbral (float).
+   - 'recall_en_umbral': recall en ese umbral (float).
+   - 'auc_pr': área bajo la curva Precision-Recall usando auc(recall,
+     precision) de sklearn.metrics (float).
+
+Firma:
+
+    def curva_precision_recall(y_true: np.ndarray, y_proba: np.ndarray) -> dict
+
+Argumento   Tipo          Descripción
+---------   -----------   ----------------------------------------------------
+y_true      np.ndarray    Vector de etiquetas reales binarias (0 o 1),
+                          forma (n_samples,)
+y_proba     np.ndarray    Vector de probabilidades predichas para la clase
+                          positiva, forma (n_samples,)
+Retorna     dict          Diccionario con mejor_umbral, mejor_f1,
+                          precision_en_umbral, recall_en_umbral, auc_pr

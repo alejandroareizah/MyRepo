@@ -1,0 +1,46 @@
+Ejercicio 4 — clasificacion_multietiqueta
+==========================================
+
+Clasificación multi-etiqueta con evaluación por etiqueta
+
+En muchos problemas reales un mismo ejemplo puede pertenecer a varias clases
+simultáneamente (por ejemplo, un artículo puede estar etiquetado como
+"ciencia" y "tecnología" a la vez). Esto se llama clasificación multi-etiqueta
+y requiere un tratamiento especial.
+
+Tu misión: Escribe una función llamada clasificacion_multietiqueta(X_train,
+y_train, X_test, y_test) que realice lo siguiente:
+
+1. Instancie un RandomForestClassifier(n_estimators=100, random_state=42) y
+   envuélvalo dentro de un MultiOutputClassifier de sklearn.multioutput.
+2. Entrene el modelo con X_train e y_train.
+3. Genere predicciones sobre X_test.
+4. Calcule el F1-score por etiqueta (columna) usando f1_score de
+   sklearn.metrics con average=None, que devuelve un array con un F1 por cada
+   etiqueta.
+5. Devuelva un diccionario con las siguientes claves:
+   - 'f1_por_etiqueta': lista de floats con el F1-score de cada etiqueta.
+   - 'f1_promedio': media del F1-score sobre todas las etiquetas (float).
+   - 'n_etiquetas': número total de etiquetas (int).
+
+Firma:
+
+    def clasificacion_multietiqueta(
+        X_train: np.ndarray,
+        y_train: np.ndarray,
+        X_test: np.ndarray,
+        y_test: np.ndarray
+    ) -> dict
+
+Argumento   Tipo          Descripción
+---------   -----------   ----------------------------------------------------
+X_train     np.ndarray    Matriz de características de entrenamiento,
+                          forma (n_train, n_features)
+y_train     np.ndarray    Matriz de etiquetas binarias de entrenamiento,
+                          forma (n_train, n_labels)
+X_test      np.ndarray    Matriz de características de prueba,
+                          forma (n_test, n_features)
+y_test      np.ndarray    Matriz de etiquetas binarias de prueba,
+                          forma (n_test, n_labels)
+Retorna     dict          Diccionario con f1_por_etiqueta, f1_promedio y
+                          n_etiquetas

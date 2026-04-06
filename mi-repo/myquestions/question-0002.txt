@@ -1,0 +1,39 @@
+Ejercicio 2 — resumir_frecuencias
+==================================
+
+Perfil de frecuencias y dominancia por grupo
+
+Tienes un DataFrame con registros de eventos categóricos asociados a
+diferentes entidades (usuarios, sensores, clientes, etc.). Necesitas construir
+un resumen estadístico que describa cómo se distribuyen los eventos dentro de
+cada entidad.
+
+Tu misión: Escribe una función llamada resumir_frecuencias(df, grupo_col,
+evento_col) que realice lo siguiente:
+
+1. Agrupe el DataFrame por grupo_col.
+2. Para cada grupo calcule:
+   - total_eventos: número total de filas del grupo.
+   - tipos_distintos: número de valores únicos en evento_col dentro del grupo
+     (usa nunique).
+   - evento_dominante: el valor de evento_col que aparece con mayor frecuencia
+     en ese grupo (usa value_counts). En caso de empate, toma el primero en
+     orden alfabético.
+   - pct_dominante: porcentaje que representa el evento dominante sobre el
+     total de eventos del grupo, redondeado a 2 decimales.
+3. Devuelva un pd.DataFrame con las columnas [grupo_col, 'total_eventos',
+   'tipos_distintos', 'evento_dominante', 'pct_dominante'], ordenado por
+   total_eventos de mayor a menor, con el índice reseteado.
+
+Firma:
+
+    def resumir_frecuencias(df: pd.DataFrame, grupo_col: str, evento_col: str) -> pd.DataFrame
+
+Argumento    Tipo            Descripción
+----------   -------------   -------------------------------------------------
+df           pd.DataFrame    DataFrame con al menos dos columnas categóricas
+grupo_col    str             Nombre de la columna que define los grupos
+evento_col   str             Nombre de la columna cuyos valores se cuentan y
+                             analizan
+Retorna      pd.DataFrame    Resumen con métricas por grupo, ordenado por
+                             total_eventos descendente
