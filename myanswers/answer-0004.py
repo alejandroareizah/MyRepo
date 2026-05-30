@@ -31,8 +31,7 @@ def comparar_regresores(X, y, n_folds):
         "ridge_mean_r2": ridge_mean,
         "ridge_std_r2": ridge_scores.std(),
         "mejor_modelo": (
-            "Ridge"
-            if ridge_mean > lr_mean
+            "Ridge" if ridge_mean > lr_mean
             else "LinearRegression"
         )
     }
