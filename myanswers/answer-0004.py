@@ -1,18 +1,38 @@
-from sklearn.preprocessing import RobustScaler
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.model_selection import cross_val_score
 
-def entrenar_clasificador_paneles(X, y):
-
-    scaler = RobustScaler()
+def comparar_regresores(X, y, n_folds):
+    scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
-    clf = RandomForestClassifier(
-        n_estimators=50,
-        random_state=42
+    lr_scores = cross_val_score(
+        LinearRegression(),
+        X_scaled,
+        y,
+        cv=n_folds,
+        scoring="r2"
     )
 
-    clf.fit(X_scaled, y)
+    ridge_scores = cross_val_score(
+        Ridge(alpha=1.0),
+        X_scaled,
+        y,
+        cv=n_folds,
+        scoring="r2"
+    )
 
-    predicciones = clf.predict(X_scaled)
+    lr_mean = lr_scores.mean()
+    ridge_mean = ridge_scores.mean()
 
-    return clf, predicciones
+    return {
+        "linear_mean_r2": lr_mean,
+        "linear_std_r2": lr_scores.std(),
+        "ridge_mean_r2": ridge_mean,
+        "ridge_std_r2": ridge_scores.std(),
+        "mejor_modelo": (
+            "Ridge"
+            if ridge_mean > lr_mean
+            else "LinearRegression"
+        )
+    }
