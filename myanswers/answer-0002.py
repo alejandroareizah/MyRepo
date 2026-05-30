@@ -7,7 +7,6 @@ def resumir_ventas_y_tendencia(df):
     temp = df.copy()
 
     temp["fecha"] = pd.to_datetime(temp["fecha"])
-
     temp["mes"] = temp["fecha"].dt.to_period("M").astype(str)
 
     resumen = (
@@ -17,13 +16,11 @@ def resumir_ventas_y_tendencia(df):
     )
 
     X = np.arange(len(resumen)).reshape(-1, 1)
-
     y = resumen["ventas"].to_numpy()
 
-    modelo = LinearRegression()
+    model = LinearRegression()
+    model.fit(X, y)
 
-    modelo.fit(X, y)
-
-    pendiente = float(modelo.coef_[0])
+    pendiente = float(model.coef_[0])
 
     return resumen, pendiente
