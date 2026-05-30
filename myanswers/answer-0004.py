@@ -1,17 +1,18 @@
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import balanced_accuracy_score, confusion_matrix
-import numpy as np
+from sklearn.preprocessing import RobustScaler
+from sklearn.ensemble import RandomForestClassifier
 
-def detectar_anomalias_red(X, y):
+def entrenar_clasificador_paneles(X, y):
 
-    modelo = DecisionTreeClassifier(random_state=42)
+    scaler = RobustScaler()
+    X_scaled = scaler.fit_transform(X)
 
-    modelo.fit(X, y)
+    clf = RandomForestClassifier(
+        n_estimators=50,
+        random_state=42
+    )
 
-    predicciones = modelo.predict(X)
+    clf.fit(X_scaled, y)
 
-    balanced_acc = balanced_accuracy_score(y, predicciones)
+    predicciones = clf.predict(X_scaled)
 
-    matriz = confusion_matrix(y, predicciones)
-
-    return float(balanced_acc), matriz
+    return clf, predicciones

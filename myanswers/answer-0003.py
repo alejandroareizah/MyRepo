@@ -1,18 +1,30 @@
-from sklearn.preprocessing import RobustScaler
-from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+import numpy as np
 
-def entrenar_clasificador_paneles(X, y):
+def resumen_ventas_por_region(df):
 
-    scaler = RobustScaler()
-    X_scaled = scaler.fit_transform(X)
+    df = df.copy()
 
-    clf = RandomForestClassifier(
-        n_estimators=50,
-        random_state=42
+    df["ingreso_neto"] = (
+        df["cantidad"] *
+        df["precio_unitario"] *
+        (1 - df["descuento"])
     )
 
-    clf.fit(X_scaled, y)
+    summary = df.groupby("region").agg(
+        total_ingresos=("ingreso_neto", "sum"),
+        promedio_descuento=("descuento", "mean"),
+        num_transacciones=("region", "count")
+    ).reset_index()
 
-    predicciones = clf.predict(X_scaled)
+    total_general = summary["total_ingresos"].sum()
 
-    return clf, predicciones
+    summary["porcentaje_ingresos"] = np.round(
+        summary["total_ingresos"] / total_general * 100,
+        2
+    )
+
+    return summary.sort_values(
+        "total_ingresos",
+        ascending=False
+    ).reset_index(drop=True)
